@@ -14,6 +14,18 @@
         <div class="column" id="column1">
             <h2>Create</h2>
             <p style="text-align: center;">Create New Activity</p>
+            <form id="todo-form">
+                <label for="note-name">Note Name:</label>
+                <input type="text" id="note-name" required>
+                
+                <label for="note-description">Note Description:</label>
+                <input id="note-description" required>
+                
+                <label for="note-importance">Note Importance (1-5):</label>
+                <input type="number" id="note-importance" min="1" max="5" required>
+                
+                <button type="button" onclick="addTodo()">Add Note</button>
+            </form>
         </div>
         <div class="column" id="column2">
             <h2>Store</h2>
@@ -43,5 +55,6 @@
             </tbody>
         </table>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>

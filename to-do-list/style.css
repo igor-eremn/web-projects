@@ -33,6 +33,44 @@ main {
     text-align: center;
 }
 
+/* NOTE FORM */
+#todo-form {
+    display: flex;
+    flex-direction: column;
+}
+#todo-form label {
+    margin-top: 10px;
+}
+#todo-form input, #todo-form textarea {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+#todo-form button {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #644e4f;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+#todo-form button:hover {
+    background-color: #4a3a3a;
+}
+#todo-list {
+    list-style-type: none;
+    padding: 0;
+}
+#todo-list li {
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
 /* FOOTER */
 table {
     width: 100%;
@@ -41,11 +79,9 @@ table {
     color: #fff;
     font-family: monospace;
 }
-
 table, th, td {
     border: 1px solid #000000;
 }
-
 th, td {
     padding: 10px;
     text-align: center;
