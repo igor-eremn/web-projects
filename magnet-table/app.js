@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   function populateMagnetSelectorGrade(data, selectedMaterial) {
     const selector = document.getElementById('magnet-grade-selector');
-    selector.innerHTML = ''; // Clear existing options
+    selector.innerHTML = '<option value="">Select Grade</option>'; // Clear existing options
   
     // Filter the data based on the selected material
     const filteredData = data.filter(magnet => magnet.material === selectedMaterial);
@@ -40,7 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
       selector.appendChild(option);
     });
   }
-  
+
+  //change grade options after material change
+  const materialSelector = document.getElementById('magnet-material-selector');
+  materialSelector.addEventListener('change', () => {
+    const selectedMaterial = materialSelector.value;
+    populateMagnetSelectorGrade(magnetData, selectedMaterial);
+  });
   
   function displayMagnetInfo() {
     const selectedGrade = document.getElementById('magnet-grade-selector').value;
