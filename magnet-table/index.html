@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magnet Information</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Select Magnet Grade</h1>
+  <!-- New small table -->
+  <table id="magnet-selector-table">
+    <thead>
+      <tr>
+        <th colspan="4">Magnet Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Material:</td>
+        <td>
+          <select id="magnet-material-selector">
+            <option value="">Select Material</option>
+            <!-- Options will be dynamically populated -->
+          </select>
+        </td>
+        <td id="shape-specific-label-1"></td>
+        <td id="shape-specific-input-1">
+          <input type="text" id="shape-specific-value-1" style="display: none;">
+        </td>
+      </tr>
+      <tr>
+        <td>Grade:</td>
+        <td>
+          <select id="magnet-grade-selector">
+            <option value="">Select Grade</option>
+            <!-- Options will be dynamically populated -->
+          </select>
+        </td>
+        <td id="shape-specific-label-2"></td>
+        <td id="shape-specific-input-2">
+          <input type="text" id="shape-specific-value-2" style="display: none;">
+        </td>
+      </tr>
+      <tr>
+        <td>Shape:</td>
+        <td>
+            <select id="magnet-shape-selector" onchange="toggleShapeFields()">
+                <option value="">Select Shape</option>
+                <option value="disk">Disk</option>
+                <option value="block">Block</option>
+            </select>
+        </td>
+        <td id="shape-specific-label-3"></td>
+        <td id="shape-specific-input-3">
+          <input type="text" id="shape-specific-value-3" style="display: none;">
+        </td>
+      </tr>
+      <!-- Add more rows if needed -->
+    </tbody>
+</table>
+
+
+  <!-- Button -->
+  <button id="submit-button" onclick="displayMagnetInfo()">Calculate</button>
+
+  <table id="magnet-info-table">
+    <thead>
+      <tr>
+        <th>Characteristic</th>
+        <th>Value</th>
+        <th>Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be dynamically populated -->
+    </tbody>
+  </table>
+
+  <script src="app.js"></script>
+</body>
+</html>
