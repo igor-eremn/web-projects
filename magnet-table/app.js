@@ -57,14 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
   
     if (magnet) {
       const rows = [
-        { characteristic: 'Magnet Grade', value: magnet.grade, unit: '' },
-        { characteristic: 'BH(max)', value: magnet.bh_max, unit: 'MGOe' },
-        { characteristic: 'Residual Induction', value: magnet.residual_induction, unit: 'T' },
-        { characteristic: 'Coercive Force by Magnetic Induction', value: magnet.coercive_force_induction, unit: 'kA/m' },
-        { characteristic: 'Coercive Force by Magnetization', value: magnet.coercive_force_magnetization, unit: 'kA/m' },
-        { characteristic: 'Operating Temperature, no more', value: magnet.operating_temperature, unit: '°C' },
-        { characteristic: 'Curie Temperature', value: magnet.curie_temperature, unit: '°C' },
-        { characteristic: 'Density', value: magnet.density, unit: 'g/cm³' }
+        { characteristic: 'Magnet Grade',                         value: magnet.grade,                        unit: '' },
+        { characteristic: 'BH(max)',                              value: magnet.bh_max,                       unit: 'MGOe' },
+        { characteristic: 'Residual Induction',                   value: magnet.residual_induction,           unit: 'T' },
+        { characteristic: 'Coercive Force by Magnetic Induction', value: magnet.coercive_force_induction,     unit: 'kA/m' },
+        { characteristic: 'Coercive Force by Magnetization',      value: magnet.coercive_force_magnetization, unit: 'kA/m' },
+        { characteristic: 'Curie Temperature',                    value: magnet.curie_temperature,            unit: '°C' },
+        { characteristic: 'Density',                              value: magnet.density,                      unit: 'g/cm³' }
       ];
   
       rows.forEach(row => {

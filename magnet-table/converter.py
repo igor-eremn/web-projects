@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Read the CSV file into a Pandas DataFrame
-df = pd.read_csv('magnet_table_v1.csv')
+df = pd.read_csv('magnet_table_v1_2.csv')
 
 # Convert the DataFrame to JSON format
 json_data = df.to_json(orient='records')
