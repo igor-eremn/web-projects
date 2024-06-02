@@ -18,7 +18,7 @@
     <tbody>
       <tr>
         <td>Material:</td>
-        <td>
+        <td id="c1">
           <select id="magnet-material-selector">
             <option value="">Select Material</option>
             <!-- Options will be dynamically populated -->
@@ -31,7 +31,7 @@
       </tr>
       <tr>
         <td>Grade:</td>
-        <td>
+        <td id="c2">
           <select id="magnet-grade-selector">
             <option value="">Select Grade</option>
             <!-- Options will be dynamically populated -->
@@ -44,12 +44,13 @@
       </tr>
       <tr>
         <td>Shape:</td>
-        <td>
-            <select id="magnet-shape-selector" onchange="toggleShapeFields()">
-                <option value="">Select Shape</option>
-                <option value="disk">Disk</option>
-                <option value="block">Block</option>
-            </select>
+        <td id="c3">
+          <select id="magnet-shape-selector" onchange="toggleShapeFields()">
+            <option value="">Select Shape</option>
+            <option value="disk">Disk</option>
+            <option value="block">Block</option>
+            <option value="ring">Ring</option>
+          </select>
         </td>
         <td id="shape-specific-label-3"></td>
         <td id="shape-specific-input-3">
@@ -58,7 +59,8 @@
       </tr>
       <!-- Add more rows if needed -->
     </tbody>
-</table>
+  </table>
+  
 
 
   <!-- Button -->

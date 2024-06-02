@@ -1,42 +1,81 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-  }
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+select {
+  margin-bottom: 20px;
+  padding: 5px;
+  font-size: 16px;
+}
+
+table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+thead th {
+  background-color: #f2f2f2;
+  padding: 10px;
+  text-align: left;
+}
+
+tbody td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  box-sizing: border-box; /* Include padding and border in the width */
+  vertical-align: middle; /* Ensure vertical alignment */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#submit-button {
+  width: 50%;
+}
+
+#shape-specific-label-1,
+#shape-specific-label-2,
+#shape-specific-label-3{
+  text-align: end;
+}
+
+/* Set specific widths for different columns */
+table tr th:nth-child(1),
+table tr td:nth-child(1) {
+  width: 15%;
+}
+
+table tr th:nth-child(2),
+table tr td:nth-child(2) {
+  width: 25%;
+}
+
+table tr th:nth-child(3),
+table tr td:nth-child(3) {
+  width: 30%;
+}
+
+table tr th:nth-child(4),
+table tr td:nth-child(4) {
+  width: 30%;
+}
+
+#c1, #c2, #c3{
+  padding-top: 20px;
+  padding-bottom: 0px;
   
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  select {
-    margin-bottom: 20px;
-    padding: 5px;
-    font-size: 16px;
-  }
-  
-  table {
-    width: 60%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  thead th {
-    background-color: #f2f2f2;
-    padding: 10px;
-    text-align: left;
-  }
-  
-  tbody td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    width: 25%; /* Set each <td> to take 25% of the table width */
-    box-sizing: border-box; /* Include padding and border in the width */
-  }
-  
-  tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-    #submit-button {
-      width: 60%;
-    }
+}
+
+#shape-specific-value-1,
+#shape-specific-value-2,
+#shape-specific-value-3{
+  width: 90%;
+}
