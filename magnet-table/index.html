@@ -317,7 +317,9 @@ table tr td:nth-child(4) {
         { characteristic: 'Intrinsic Coercive Force', value: magnet.coercive_force_magnetization, unit: 'kA/m' },
         { characteristic: 'Maximum Operating Temperature', value: magnet.curie_temperature, unit: '°C' },
         { characteristic: 'Density', value: magnet.density, unit: 'g/cm³' },
-        { characteristic: 'Mass', value: calculateMass(magnet), unit: 'g' }
+        { characteristic: 'Mass', value: calculateMass(magnet), unit: 'g' },
+        { characteristic: 'Pole Area', value: calculatePoleArea(), unit: 'm²'},
+        { characteristic: 'Attractive Force', value: calculateAttractiveForce(magnet.residual_induction), unit: 'N'}
     ];
 
     rows.forEach(row => {
@@ -337,52 +339,7 @@ table tr td:nth-child(4) {
     });
 }
 
-
-  function calculateMagnetInfo() {
-    const selectedGrade = document.getElementById('magnet-grade-selector').value;
-    const shape = document.getElementById('magnet-shape-selector').value;
-    const value1 = parseFloat(document.getElementById('shape-specific-value-1').value);
-    const value2 = parseFloat(document.getElementById('shape-specific-value-2').value);
-    const value3 = parseFloat(document.getElementById('shape-specific-value-3').value);
-
-    if (!selectedGrade || !shape || isNaN(value1) || isNaN(value2) || (shape === 'block' && isNaN(value3))) {
-      alert('Please fill in all required fields with valid numbers.');
-      return;
-    }
-
-    const magnet = magnetData.find(m => m.grade === selectedGrade);
-
-    const tbody = document.getElementById('magnet-info-table').getElementsByTagName('tbody')[0];
-    tbody.innerHTML = ''; // Clear the table body
-
-    if (magnet) {
-      const volume = calculateVolume(shape, value1, value2, value3);
-      const mass = calculateMass(volume, magnet.density);
-
-      const rows = [
-        { characteristic: 'Volume', value: volume.toFixed(2), unit: 'cm³' },
-        { characteristic: 'Mass', value: mass.toFixed(2), unit: 'g' }
-      ];
-
-      rows.forEach(row => {
-        const tr = document.createElement('tr');
-        const characteristicTd = document.createElement('td');
-        const valueTd = document.createElement('td');
-        const unitTd = document.createElement('td');
-
-        characteristicTd.textContent = row.characteristic;
-        valueTd.textContent = row.value;
-        unitTd.textContent = row.unit;
-
-        tr.appendChild(characteristicTd);
-        tr.appendChild(valueTd);
-        tr.appendChild(unitTd);
-        tbody.appendChild(tr);
-      });
-    }
-  }
-
-  function calculateVolume(magnet) {
+function calculateVolume(magnet) {
     const shape = document.getElementById('magnet-shape-selector').value;
     const value1 = parseFloat(document.getElementById('shape-specific-value-1').value);
     const value2 = parseFloat(document.getElementById('shape-specific-value-2').value);
@@ -390,42 +347,86 @@ table tr td:nth-child(4) {
 
     let volume = 0;
     if (shape === 'block') {
-      // Convert millimeter values to centimeters if needed
-      const length = value1 / 10; // Convert mm to cm
-      const width = value2 / 10; // Convert mm to cm
-      const height = value3 / 10; // Convert mm to cm
-
-      // Volume = length * width * height
-      volume = length * width * height;
+        const length = value1 / 10;
+        const width = value2 / 10;
+        const height = value3 / 10;
+        volume = length * width * height;
     } else if (shape === 'disk') {
-      // Convert millimeter values to centimeters if needed
-      const diameter = value1 / 10; // Convert mm to cm
-      const height = value2 / 10; // Convert mm to cm
-
-      // Volume = π * (diameter/2)^2 * height
-      const radius = diameter / 2; // Assuming length as diameter for disk
-      volume = Math.PI * Math.pow(radius, 2) * height;
+        const diameter = value1 / 10;
+        const height = value2 / 10;
+        const radius = diameter / 2;
+        volume = Math.PI * Math.pow(radius, 2) * height;
     } else if (shape === 'ring') {
-      const height = value3 / 10; // Convert mm to cm
+        const height = value3 / 10;
+        const diameterExt = value1 / 10;
+        const radiusExt = diameterExt / 2;
+        let volumeExt = Math.PI * Math.pow(radiusExt, 2) * height;
+        const diameterInt = value2 / 10;
+        const radiusInt = diameterInt / 2;
+        let volumeInt = Math.PI * Math.pow(radiusInt, 2) * height;
+        volume = volumeExt - volumeInt;
+    }
 
-      const diameterExt = value1 / 10;
-      const radiusExt = diameterExt / 2;
-      let volumeExt = Math.PI * Math.pow(radiusExt, 2) * height;
-
-      const diameterInt = value2 / 10;
-      const radiusInt = diameterInt / 2;
-      let volumeInt = Math.PI * Math.pow(radiusInt, 2) * height;
-
-      volume = volumeExt - volumeInt;
-  }
-
-    return volume.toFixed(2); // Return volume with 2 decimal places
+    return volume.toFixed(2);
 }
 
   function calculateMass(magnet) {
     const volume = calculateVolume(magnet);
     return (volume * magnet.density).toFixed(2); // Return mass with 2 decimal places
 }
+
+  function calculatePoleArea() {
+    const shape = document.getElementById('magnet-shape-selector').value;
+    const value1 = parseFloat(document.getElementById('shape-specific-value-1').value);
+    const value2 = parseFloat(document.getElementById('shape-specific-value-2').value);
+    const value3 = parseFloat(document.getElementById('shape-specific-value-3').value);
+
+    let area = 0;
+    if (shape === 'block') {
+        const length = value1 / 10; // Convert mm to cm
+        const width = value2 / 10; // Convert mm to cm
+        area = length * width;
+    } else if (shape === 'disk') {
+        const diameter = value1 / 10; // Convert mm to cm
+        const radius = diameter / 2;
+        area = Math.PI * Math.pow(radius, 2);
+    }
+    else if (shape === 'ring') {
+        const diameterExt = value1 / 10; // Convert mm to cm
+        const radiusExt = diameterExt / 2;
+        const areaExt = Math.PI * Math.pow(radiusExt, 2);
+        const diameterInt = value2 / 10; // Convert mm to cm
+        const radiusInt = diameterInt / 2;
+        const areaInt = Math.PI * Math.pow(radiusInt, 2);
+        area = areaExt - areaInt;
+    }
+
+    const areaInSquareMeters = area / 10000; // Convert cm^2 to m^2
+    return areaInSquareMeters.toFixed(8); // Return area with 8 decimal places
+  }
+
+  function calculateAttractiveForce(BH) {
+    const diameter = parseFloat(document.getElementById('shape-specific-value-1').value);
+    const thickness = parseFloat(document.getElementById('shape-specific-value-2').value);
+    
+    const diameterMeters = diameter / 1000;
+    const thicknessMeters = thickness / 1000;
+
+    const area = calculatePoleArea()
+    const mu0 = 4 * Math.PI * Math.pow(10, -7);
+
+    // Calculate magnetic flux density (B) directly from BH in T
+    let B = 0.49;
+
+    // Calculate the attractive force (F) in Newtons with thickness adjustment
+    let forceN = (Math.pow(B, 2) * area) / (2 * mu0) * (1 + thicknessMeters / diameterMeters);
+
+    // Convert force from Newtons to kilograms-force (kgf)
+    let forceKgf = forceN * 0.10197;
+
+    return forceKgf.toFixed(4);
+}
+
 
   /* Shape Specific Fields */
   function toggleShapeFields() {

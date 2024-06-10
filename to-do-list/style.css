@@ -23,7 +23,7 @@ main {
     flex: 1;
     margin: 0 10px;
     padding: 10px;
-    height: 800px;
+    height: 850px;
     border: 1px solid #000000;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 
@@ -71,19 +71,91 @@ main {
     cursor: pointer;
 }
 
-/* FOOTER */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    color: #fff;
-    font-family: monospace;
+/* Note Template */
+#notes-list {
+    list-style-type: none;
+    padding: 0;
 }
-table, th, td {
-    border: 1px solid #000000;
-}
-th, td {
+
+.note-box {
+    border: 1px solid #ccc;
+    border-radius: 5px;
     padding: 10px;
-    text-align: center;
-    width: 30%;
+    margin: 10px 0;
+    background-color: #a5898a;
+    position: relative;
+    overflow: hidden;
+}
+
+.note-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    rotate: -90deg;
+    border-style: solid;
+    border-width: 0 0 40px 40px; /* Adjust the size as needed */
+}
+
+.importance-1::before {
+    border-color: transparent transparent #ffcccc transparent;
+}
+
+.importance-2::before {
+    border-color: transparent transparent #ff9999 transparent;
+}
+
+.importance-3::before {
+    border-color: transparent transparent #ff6666 transparent;
+}
+
+.importance-4::before {
+    border-color: transparent transparent #ff3333 transparent;
+}
+
+.importance-5::before {
+    border-color: transparent transparent #ff0000 transparent;
+}
+
+/* Remove .note-importance style if it exists */
+.note-importance {
+    display: none;
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-name {
+    font-weight: bold;
+}
+
+.note-importance {
+    font-size: 0.9em;
+    color: #662727;
+    font-weight: bold;
+}
+
+.note-description {
+    margin-top: 20px;
+    margin-bottom: 35px;
+}
+
+.delete-button {
+    align-self: flex-end;
+    padding: 5px 10px;
+    background-color: #886a6b;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.delete-button:hover {
+    background-color: #8e4949;
 }

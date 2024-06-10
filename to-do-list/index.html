@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TO-DO</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
 </head>
 <body>
     <header>
@@ -24,37 +25,19 @@
                 <label for="note-importance">Note Importance (1-5):</label>
                 <input type="number" id="note-importance" min="1" max="5" required>
                 
-                <button type="button" onclick="addTodo()">Add Note</button>
+                <button type="button" onclick="addNote()">Add Note</button>
             </form>
         </div>
         <div class="column" id="column2">
             <h2>Store</h2>
-            <p style="text-align: center;">Store New Activity</p>
+            <p style="text-align: center;">Stored Activities</p>
+            <ul id="notes-list"></ul>
         </div>
         <div class="column" id="column3">
             <h2>Delete</h2>
             <p style="text-align: center;">Delete selected Activity</p>
         </div>
     </main>
-    <footer>
-        <table>
-            <thead>
-                <tr>
-                    <th>Feature</th>
-                    <th>Description</th>
-                    <th>Date Added</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Layout</td>
-                    <td>Created simple layout with 3 columns and footer</td>
-                    <td>2024-05-27</td>
-                </tr>
-                <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-    </footer>
     <script src="script.js"></script>
 </body>
 </html>
