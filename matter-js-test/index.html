@@ -8,20 +8,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.17.1/matter.min.js"></script>
     <script src="scripts.js"></script>
     <style>
-        canvas {
+        /*canvas {
             position: relative;
-            width: 600px;
-            height: 800px;
+            width: 40%;
+            height: 100%;
             border: 1px solid #000;
             background-color: white;
+            left: 30%;
         }
+        .box {
+            position: absolute;
+            width: 500px;
+            height: 50px;
+            background-color: red;
+            border: 3px solid blue;
+        }*/
     </style>
 </head>
 <body onload='init()'>
-    <div id="areaToRender">
-    </div>
+    <div id="areaToRender"></div>
 
-    <button onclick="StartBoxes()">Click me</button>
+    <button style="position: relative; left: 30%; width: 20%;" onclick="StartBoxes()">Click me</button>
+    <button style="position: relative; left: 30%; width: 20%;" onclick="clearWorld()">Clear World</button>
 
     <div>
     </div>
