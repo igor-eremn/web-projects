@@ -19,15 +19,19 @@ main {
     justify-content: space-around;
     padding: 20px;
 }
-.column {
+#column1 {
     flex: 1;
     margin: 0 10px;
     padding: 10px;
     height: 850px;
+    color: white;
     border: 1px solid #000000;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-
-    color: white;
+}
+#note-storage{
+    flex: 2;
+    margin: 0 10px;
+    height: 870px;
 }
 .column h2 {
     text-align: center;
@@ -80,11 +84,15 @@ main {
 .note-box {
     border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    width:fit-content;
     margin: 10px 0;
     background-color: #a5898a;
-    position: relative;
-    overflow: hidden;
+    position: absolute;
+    border: 3px solid black;
 }
 
 .note-box::before {
@@ -96,7 +104,7 @@ main {
     height: 0;
     rotate: -90deg;
     border-style: solid;
-    border-width: 0 0 40px 40px; /* Adjust the size as needed */
+    border-width: 0 0 30px 30px;
 }
 
 .importance-1::before {
@@ -126,14 +134,20 @@ main {
 
 .note-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: center; /* Centers the content horizontally */
+    align-items: center; /* Centers the content vertically */
+}
+
+.note-name {
+    text-align: center;
 }
 
 .note-name {
     font-weight: bold;
+    font-size: 1.5em;
 }
 
+/*
 .note-importance {
     font-size: 0.9em;
     color: #662727;
@@ -159,3 +173,4 @@ main {
 .delete-button:hover {
     background-color: #8e4949;
 }
+    */
