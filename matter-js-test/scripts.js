@@ -53,6 +53,7 @@ function clearWorld() {
     }
 
     setWorld();
+    boxCount = 0;
 }
 
 
@@ -65,6 +66,8 @@ function setWorld() {
     Composite.add(engine.world, [ground, leftWall, rightWall, ceiling]);
 }
 
+let boxCount = 0; // Add this line at the top of your script, outside any function
+
 function StartBoxes() {
     let randomX = (Math.random() * 500) + 100; // Random X coordinate between 100 and 600
 
@@ -75,6 +78,10 @@ function StartBoxes() {
         }
     });
 
+    // Increment box count and assign an ID
+    boxCount++;
+    let boxID = boxCount;
+
     // Create HTML element
     const boxElement = document.createElement('div');
     boxElement.className = 'box';
@@ -83,16 +90,30 @@ function StartBoxes() {
     boxElement.style.position = 'absolute';
     boxElement.style.backgroundColor = 'white';
     boxElement.style.border = '3px solid black';
+    boxElement.onclick = () => {
+        //alert(`Box ID: ${boxID}`); // Add alert showing the box ID
+    }
 
     // Add HTML content inside the box
     const header = document.createElement('h1');
-    header.textContent = 'Box';
+    header.textContent = `Box ${boxID}`; // Include box ID in the header
     header.style.margin = '0';
     header.style.fontSize = '16px'; // Adjust to fit inside the box
 
     const button = document.createElement('button');
     button.textContent = 'Click Me';
     button.style.fontSize = '12px'; // Adjust to fit inside the box
+    button.onclick = () => {
+        boxElement.animate({
+            opacity: "-=1"
+          }, 10000, function() {
+            //alert(`Box ID: ${boxID}`); // Add alert showing the box ID
+            Composite.remove(engine.world, box);
+        // Remove the HTML element
+            boxElement.parentNode.removeChild(boxElement);
+          });
+
+    }
 
     // Append elements to the box
     boxElement.appendChild(header);
@@ -103,8 +124,8 @@ function StartBoxes() {
 
     // Update HTML element's position and rotation based on the Matter.js body
     Matter.Events.on(engine, 'afterUpdate', function() {
-        boxElement.style.left = `${box.position.x - 147}px`; // Center the box (half of 300px width)
-        boxElement.style.top = `${box.position.y - 22}px`; // Center the box (half of 40px height)
+        boxElement.style.left = `${box.position.x - 153}px`; // Center the box (half of 300px width)
+        boxElement.style.top = `${box.position.y - 23}px`; // Center the box (half of 40px height)
         boxElement.style.transform = `rotate(${box.angle}rad)`;
     });
 
@@ -112,3 +133,4 @@ function StartBoxes() {
     Composite.add(engine.world, [box]);
     Engine.update(engine);
 }
+
