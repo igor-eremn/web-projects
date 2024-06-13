@@ -6,8 +6,10 @@
     <title>TO-DO</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body onload='init()'>
+    <div id='blanket'></div>
     <header>
         <h1>To-do List</h1>
     </header>
@@ -25,12 +27,16 @@
                 <label for="note-importance">Note Importance (1-5):</label>
                 <input type="number" id="note-importance" min="1" max="5" required>
                 
-                <button type="button" onclick="StartBoxes()">Add Note</button>
+                <button type="button" id="add-note-button">Add Note</button>
                 <button type="button" onclick="deleteAll()">Delete All</button>
-                <button type="button" onclick="clearWorld()">The World</button>
             </form>
         </div>
         <div class="column" id="note-storage" style="position:relative; width: 900px; height: 870px;"></div>
+
+        <div id='modal-note-info'>  
+            <h1 id="note-name-d" style="text-align: center;"></h1>
+            <p id="note-description-d" style="padding: 20px;"></p>
+        </div>        
     </main>
     <script src="script.js"></script>
 </body>
