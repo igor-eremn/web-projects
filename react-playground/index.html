@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+    <title>React ⚛️</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Header(props){
+        return(
+          <header>
+            <h1>{props.name}'s Test Header</h1>
+            </header>
+        );
+      }
+
+      function Main(props){
+        return(
+          <section>
+            <img
+              height={200}
+              src="https://images.pexels.com/photos/25358063/pexels-photo-25358063/free-photo-of-singapore-flyer.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              alt="Image from Pexels"
+            />
+            <ul>
+              {props.seasons.map((season) => (
+                <li key={season.id}>{season.title}</li>
+              ))}  
+            </ul>
+          </section>
+        );
+      }
+
+      function Footer(props){
+        return(
+          <footer>
+            <p>Copyright {props.year}</p>
+          </footer>
+        );
+      }
+
+      const seasons = [
+        "Winter",
+        "Spring",
+        "Summer",
+        "Fall"
+      ];
+
+      const seasonObjects = seasons.map((season, i) => ({
+        id: i,
+        title: season
+      }));
+
+      function App(){
+        return (
+          <React.Fragment>
+            <Header name="Igor"/>
+            <Main seasons={seasonObjects}/>
+            <Footer year= {new Date().getFullYear()}/>
+          </React.Fragment>
+        );
+      }
+
+      ReactDOM.render(
+        <App />,
+        document.getElementById("root")
+      );
+    </script>
+  </body>
+</html>
