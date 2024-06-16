@@ -13,21 +13,30 @@ function GitHubUser({ name, repos, avatar }){
 
 function App() {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     fetch(
       `https://api.github.com/users/igor-eremn`
     )
     .then((response) => response.json())
-    .then(setData);
+    .then(setData)
+    .then(() => setLoading(false))
+    .catch(setError);
   }, []);
 
-  if (data) 
-    return <GitHubUser 
-              name={data.name} 
-              repos = {data.public_repos}
-              avatar = {data.avatar_url}/>;
+  if (loading) return <h1>Loading...</h1>
+  if (error) return <pre>{JSON.stringify(error)}</pre>
+  if (!data) return null;
+
   return (
-    <h1>Data</h1>
+    <GitHubUser 
+      name={data.name}
+      repos = {data.public_repos}
+      avatar = {data.avatar_url}
+    />
   );
 }
 
