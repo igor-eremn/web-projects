@@ -1,64 +1,54 @@
 import './App.css';
-import { useEffect, useState } from "react";
+import { Link, Outlet } from "react-router-dom"
 
-const query = `
-  query {
-    allLifts {
-      name
-      elevationGain
-      status
-    }
-  }
-`;
-
-const opts = {
-  method: "POST",
-  headers: { "Content-Type" : "application/json" },
-  body: JSON.stringify({ query })
-}
-
-function Lift({name, elevationGain, status}){
-  return(
-    <div>
-      <h1>{name}</h1>
-      <p>{elevationGain} {status}</p>
-    </div>
-  )
-}
-
-function App() {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch(
-      `https://snowtooth.moonhighway.com/`, 
-      opts
-    )
-    .then((response) => response.json())
-    .then(setData)
-    .then(() => setLoading(false))
-    .catch(setError);
-  }, []);
-
-  if (loading) return <h1>Loading...</h1>
-  if (error) return <pre>{JSON.stringify(error)}</pre>
-  if (!data) return null;
-
-  console.log(data, "DATA");
+function Home(){
   return (
     <div>
-      {data.data.allLifts.map((lift) => (
-        <Lift 
-          name={lift.name} 
-          elevationGain={lift.elevationGain}
-          status={lift.status}
-        />
-      ))}
+      <nav>
+        <Link to="/"> - Home</Link>
+        <Link to="/about"> - About</Link>
+        <Link to="/contact"> - Contact - </Link>
+      </nav>
+      <h1>Home Page</h1>
     </div>
   );
 }
 
-export default App;
+export function About(){
+  return (
+    <div>
+      <nav>
+        <Link to="/"> - Home</Link>
+        <Link to="/about"> - About</Link>
+        <Link to="/contact"> - Contact - </Link>
+      </nav>
+      <h1>About Page</h1>
+      <Outlet />
+    </div>
+  );
+}
+
+export function History(){
+  return (
+    <div>
+      <h1>Our History</h1>
+    </div>
+  );
+}
+
+export function Contact(){
+  return (
+    <div>
+      <nav>
+        <Link to="/"> - Home</Link>
+        <Link to="/about"> - About</Link>
+        <Link to="/contact"> - Contact - </Link>
+      </nav>
+      <h1>Contact</h1>
+    </div>
+  );
+}
+
+export function App() {
+  return <Home />
+}
