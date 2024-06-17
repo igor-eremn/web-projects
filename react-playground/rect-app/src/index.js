@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {
   App, 
-  About, 
-  Contact,
-  History
+  ToDo, 
+  Counter
 } from './App';
 import { 
   BrowserRouter, 
@@ -17,11 +16,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/about" element={<About />}>
-        <Route path="history" element={<History />}/>
-      </Route>
-      <Route path="/contact" element={<Contact />} />
+      <Route path="/"         element={<App />} />
+      <Route path="/todo"     element={<ToDo />} />
+      <Route path="/counter"  element={<Counter />} />
     </Routes>
   </BrowserRouter>
 );
