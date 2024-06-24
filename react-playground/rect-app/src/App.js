@@ -12,70 +12,6 @@ function Home(){
   );
 }
 
-export function ToDo() {
-  const [showModal, setShowModal] = useState(false);
-  const [savedToDo, setSavedToDo] = useState([]);
-
-  useEffect(() => {
-    const storedToDo = JSON.parse(localStorage.getItem('savedToDo'));
-    if (storedToDo) {
-      setSavedToDo(storedToDo);
-    }
-  }, []);
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const saveToDo = (todo, message) => {
-    const newSavedToDo = {
-      id: uuidv4(), // Generate a unique ID
-      todo: todo,
-      message: message,
-      completed: false // Set completed initially to false
-    };
-    const newSavedToDos = [...savedToDo, newSavedToDo];
-    localStorage.setItem('savedToDo', JSON.stringify(newSavedToDos));
-    setSavedToDo(newSavedToDos);
-    setShowModal(false);
-  };
-
-  const deleteToDo = (id) => {
-    const updatedToDos = savedToDo.filter((item) => item.id !== id);
-    localStorage.setItem('savedToDo', JSON.stringify(updatedToDos));
-    setSavedToDo(updatedToDos);
-  };
-
-  const toggleCompleted = (id) => {
-    const updatedToDos = savedToDo.map((item) =>
-      item.id === id ? { ...item, completed: !item.completed } : item
-    );
-    localStorage.setItem('savedToDo', JSON.stringify(updatedToDos));
-    setSavedToDo(updatedToDos);
-  };
-
-  return (
-    <div>
-      <CreateNav />
-      <h1>To Do List</h1>
-      <button onClick={handleOpenModal}>Create new ToDo</button>
-      <Modal show={showModal} onClose={handleCloseModal} saveToDo={saveToDo} />
-      {savedToDo.map((item) => (
-        <TodoTemplate 
-          key={item.id} 
-          todoItem={item} 
-          toggleCompleted={toggleCompleted} 
-          deleteToDo={deleteToDo} 
-        />
-      ))}
-    </div>
-  );
-}
-
 export function Counter(){
   const [count, setCount] = useState(0);
   const [savedCounts, setSavedCounts] = useState([]);
@@ -180,6 +116,79 @@ export function Counter(){
   );
 }
 
+export function ToDo() {
+  const [showModal, setShowModal] = useState(false);
+  const [savedToDo, setSavedToDo] = useState([]);
+
+  useEffect(() => {
+    const storedToDo = JSON.parse(localStorage.getItem('savedToDo'));
+    if (storedToDo) {
+      setSavedToDo(storedToDo);
+    }
+  }, []);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const saveToDo = (todo, message) => {
+    const newSavedToDo = {
+      id: uuidv4(), // Generate a unique ID
+      todo: todo,
+      message: message,
+      completed: false // Set completed initially to false
+    };
+    const newSavedToDos = [...savedToDo, newSavedToDo];
+    localStorage.setItem('savedToDo', JSON.stringify(newSavedToDos));
+    setSavedToDo(newSavedToDos);
+    setShowModal(false);
+  };
+
+  const deleteToDo = (id) => {
+    const updatedToDos = savedToDo.filter((item) => item.id !== id);
+    localStorage.setItem('savedToDo', JSON.stringify(updatedToDos));
+    setSavedToDo(updatedToDos);
+  };
+
+  const toggleCompleted = (id) => {
+    const updatedToDos = savedToDo.map((item) =>
+      item.id === id ? { ...item, completed: !item.completed } : item
+    );
+    localStorage.setItem('savedToDo', JSON.stringify(updatedToDos));
+    setSavedToDo(updatedToDos);
+  };
+
+  return (
+    <div>
+      <CreateNav />
+      <h1>To Do List</h1>
+      <button onClick={handleOpenModal}>Create new ToDo</button>
+      <Modal show={showModal} onClose={handleCloseModal} saveToDo={saveToDo} />
+      {savedToDo.map((item) => (
+        <TodoTemplate 
+          key={item.id} 
+          todoItem={item} 
+          toggleCompleted={toggleCompleted} 
+          deleteToDo={deleteToDo} 
+        />
+      ))}
+    </div>
+  );
+}
+
+export function Weather(){
+  return (
+    <div>
+      <CreateNav />
+      <h1>Weather</h1>
+    </div>
+  );
+}
+
 /* ADDITIONAL FUNCTIONS FOR NEEDED FOR DIFFERENT PAGES */
 function getTime(){
   const date = new Date();
@@ -275,9 +284,10 @@ function CreateNav(){
   return (
     <div>
       <nav>
-        <Link to="/"> - Home</Link>
-        <Link to="/todo"> - To Do List</Link>
-        <Link to="/counter"> - Counter - </Link>
+        <Link to="/">--- Home ---</Link>
+        <Link to="/counter"> Counter -</Link>
+        <Link to="/todo">-- To Do List </Link>
+        <Link to="/weather"> --- Weather ---</Link>
       </nav>
     </div>
   );

@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import {
-  App, 
-  ToDo, 
-  Counter
+  App,  
+  Counter,
+  ToDo,
+  Weather
 } from './App';
 import { 
   BrowserRouter, 
@@ -17,8 +18,9 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/"         element={<App />} />
-      <Route path="/todo"     element={<ToDo />} />
       <Route path="/counter"  element={<Counter />} />
+      <Route path="/todo"     element={<ToDo />} />
+      <Route path="/weather"  element={<Weather />} />
     </Routes>
   </BrowserRouter>
 );
