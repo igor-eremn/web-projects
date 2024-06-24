@@ -71,3 +71,58 @@ textarea {
   height: 100px; /* Set a fixed height */
   max-width: 100%; /* Ensure max width is 100% of container */
 }
+
+/* template */
+.todo-template {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 10%;
+}
+.completed {
+  background-color: lightgreen;
+}
+.incomplete {
+  background-color: salmon;
+}
+.todo-template h3{
+  text-align: center;
+}
+.todo-template input{
+  position: absolute;
+  top: 20%;
+  right: -40%;
+  transform: scale(2);
+}
+.todo-template p{
+  text-align: center;
+  font-size: 15px;
+}
+#todo-id-label{
+  color: #6b6969;
+  font-size: 10px;
+  padding-bottom: 10px;
+}
+.todo-template button {
+  position: absolute;
+  top: 80%;
+  left: 0%;
+  width: 100%;
+  height: 20%;
+  border-radius: 10%;
+  border: 0px; 
+}
+.todo-template.completed .todo-button {
+  background-color: lightgreen;
+}
+.todo-template.incomplete .todo-button {
+  background-color: salmon;
+}
+
+.todo-template.completed .todo-button:hover {
+  background-color: rgb(118, 195, 118);
+}
+.todo-template.incomplete .todo-button:hover {
+  background-color: rgb(207, 105, 94);
+}

@@ -35,16 +35,25 @@ export function ToDo() {
     const newSavedToDo = {
       id: uuidv4(), // Generate a unique ID
       todo: todo,
-      message: message
+      message: message,
+      completed: false // Set completed initially to false
     };
     const newSavedToDos = [...savedToDo, newSavedToDo];
     localStorage.setItem('savedToDo', JSON.stringify(newSavedToDos));
-    setShowModal(false);
     setSavedToDo(newSavedToDos);
+    setShowModal(false);
   };
 
   const deleteToDo = (id) => {
     const updatedToDos = savedToDo.filter((item) => item.id !== id);
+    localStorage.setItem('savedToDo', JSON.stringify(updatedToDos));
+    setSavedToDo(updatedToDos);
+  };
+
+  const toggleCompleted = (id) => {
+    const updatedToDos = savedToDo.map((item) =>
+      item.id === id ? { ...item, completed: !item.completed } : item
+    );
     localStorage.setItem('savedToDo', JSON.stringify(updatedToDos));
     setSavedToDo(updatedToDos);
   };
@@ -55,20 +64,17 @@ export function ToDo() {
       <h1>To Do List</h1>
       <button onClick={handleOpenModal}>Create new ToDo</button>
       <Modal show={showModal} onClose={handleCloseModal} saveToDo={saveToDo} />
-      <ul>
-        {savedToDo.map((item) => (
-          <li key={item.id}>
-            ID: {item.id}<br />
-            To-Do: {item.todo}<br />
-            Message: {item.message}<br />
-            <button onClick={() => deleteToDo(item.id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      {savedToDo.map((item) => (
+        <TodoTemplate 
+          key={item.id} 
+          todoItem={item} 
+          toggleCompleted={toggleCompleted} 
+          deleteToDo={deleteToDo} 
+        />
+      ))}
     </div>
   );
 }
-
 
 export function Counter(){
   const [count, setCount] = useState(0);
@@ -238,6 +244,31 @@ function ToDoForm({ saveToDo }) {
     </form>
   );
 }
+const TodoTemplate = ({ todoItem, toggleCompleted, deleteToDo }) => {
+  const handleCheckboxChange = () => {
+    toggleCompleted(todoItem.id);
+  };
+
+  return (
+    <div className={`todo-template ${todoItem.completed ? 'completed' : 'incomplete'}`}>
+      <h3>{todoItem.todo}</h3>
+      <p>{todoItem.message}</p>
+      <input
+        type="checkbox"
+        checked={todoItem.completed}
+        onChange={handleCheckboxChange}
+      />
+      <p id="todo-id-label">ID: {todoItem.id}</p>
+      <button
+        className="todo-button"
+        onClick={() => deleteToDo(todoItem.id)}
+      >
+        DELETE
+      </button>
+    </div>
+  );
+};
+
 
 /* NAV BAR + APP */
 function CreateNav(){
