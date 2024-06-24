@@ -1,6 +1,7 @@
 import './App.css';
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { useState, useEffect } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 function Home(){
   return (
@@ -32,12 +33,20 @@ export function ToDo() {
 
   const saveToDo = (todo, message) => {
     const newSavedToDo = {
+      id: uuidv4(), // Generate a unique ID
       todo: todo,
       message: message
     };
     const newSavedToDos = [...savedToDo, newSavedToDo];
     localStorage.setItem('savedToDo', JSON.stringify(newSavedToDos));
+    setShowModal(false);
     setSavedToDo(newSavedToDos);
+  };
+
+  const deleteToDo = (id) => {
+    const updatedToDos = savedToDo.filter((item) => item.id !== id);
+    localStorage.setItem('savedToDo', JSON.stringify(updatedToDos));
+    setSavedToDo(updatedToDos);
   };
 
   return (
@@ -47,13 +56,19 @@ export function ToDo() {
       <button onClick={handleOpenModal}>Create new ToDo</button>
       <Modal show={showModal} onClose={handleCloseModal} saveToDo={saveToDo} />
       <ul>
-        {savedToDo.map((item, index) => (
-          <li key={index}>{item.todo}: {item.message}</li>
+        {savedToDo.map((item) => (
+          <li key={item.id}>
+            ID: {item.id}<br />
+            To-Do: {item.todo}<br />
+            Message: {item.message}<br />
+            <button onClick={() => deleteToDo(item.id)}>Delete</button>
+          </li>
         ))}
       </ul>
     </div>
   );
 }
+
 
 export function Counter(){
   const [count, setCount] = useState(0);
@@ -177,12 +192,12 @@ const Modal = ({ show, onClose, saveToDo }) => {
       <div className="modal-content">
         <span className="close" onClick={onClose}>&times;</span>
         <h2 className="modal-title">Create TODO activity</h2>
-        <ToDoForm saveToDo={saveToDo} onClose={onClose} />
+        <ToDoForm saveToDo={saveToDo} />
       </div>
     </div>
   );
 };
-function ToDoForm({ saveToDo, onClose }) {
+function ToDoForm({ saveToDo }) {
   const [formData, setFormData] = useState({ todo: "", message: "" });
 
   const handleChange = (event) => {
@@ -193,7 +208,6 @@ function ToDoForm({ saveToDo, onClose }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     saveToDo(formData.todo, formData.message);
-    onClose(); // Close the modal after saving
   };
 
   return (
