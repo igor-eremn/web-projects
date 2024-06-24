@@ -11,11 +11,46 @@ function Home(){
   );
 }
 
-export function ToDo(){
+export function ToDo() {
+  const [showModal, setShowModal] = useState(false);
+  const [savedToDo, setSavedToDo] = useState([]);
+
+  useEffect(() => {
+    const storedToDo = JSON.parse(localStorage.getItem('savedToDo'));
+    if (storedToDo) {
+      setSavedToDo(storedToDo);
+    }
+  }, []);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  const saveToDo = (todo, message) => {
+    const newSavedToDo = {
+      todo: todo,
+      message: message
+    };
+    const newSavedToDos = [...savedToDo, newSavedToDo];
+    localStorage.setItem('savedToDo', JSON.stringify(newSavedToDos));
+    setSavedToDo(newSavedToDos);
+  };
+
   return (
     <div>
       <CreateNav />
       <h1>To Do List</h1>
+      <button onClick={handleOpenModal}>Create new ToDo</button>
+      <Modal show={showModal} onClose={handleCloseModal} saveToDo={saveToDo} />
+      <ul>
+        {savedToDo.map((item, index) => (
+          <li key={index}>{item.todo}: {item.message}</li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -23,12 +58,33 @@ export function ToDo(){
 export function Counter(){
   const [count, setCount] = useState(0);
   const [savedCounts, setSavedCounts] = useState([]);
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  const images = [
+    "https://www.freeiconspng.com/thumbs/plus-icon/plus-icon-black-2.png",
+    "https://pngimg.com/d/minus_PNG6.png",
+    "https://images.pngnice.com/download/2007/Save-Button-PNG-Transparent-Photo.png",
+    "https://cdn1.iconfinder.com/data/icons/essential-ui-lineal-set/512/bin-512.png"
+  ];
 
   useEffect(() => {
     const storedCounts = JSON.parse(localStorage.getItem('savedCounts'));
     if (storedCounts) {
       setSavedCounts(storedCounts);
     }
+
+    const loadImage = (url) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.src = url;
+        img.onload = () => resolve();
+      });
+    };
+
+    Promise.all(images.map(image => loadImage(image))).then(() => {
+      setImagesLoaded(true);
+    });
+
   }, []);
 
   const increment = () => {
@@ -59,48 +115,51 @@ export function Counter(){
     <div>
       <CreateNav />
       <h1>Counter</h1>
-      <p>Count: {count}</p>
-      <button>
-        <img 
-          src="https://www.freeiconspng.com/thumbs/plus-icon/plus-icon-black-2.png" 
-          alt="Add Conuter" 
-          onClick={increment}
-          height="50"
-        />
-      </button>
-      <button>
-        <img 
-          src="https://pngimg.com/d/minus_PNG6.png" 
-          alt="Minus Conuter" 
-          onClick={decrement}
-          height="50"
-        />
-      </button>
-      <button>
-        <img 
-          src="https://images.pngnice.com/download/2007/Save-Button-PNG-Transparent-Photo.png" 
-          alt="Save Conuter" 
-          onClick={saveCount}
-          height="50"
-        />
-      </button>
-      <button>
-        <img 
-          src="https://cdn1.iconfinder.com/data/icons/essential-ui-lineal-set/512/bin-512.png" 
-          alt="Clear Storage" 
-          onClick={clearStorage}
-          height="50"
-        />
-      </button>
-      <ul>
-        {savedCounts.map((savedCount, index) => (
-          <li key={index}>Saved Count: {savedCount.count}; When: {savedCount.time}</li>
-        ))}
-      </ul>
+      {imagesLoaded ? (
+        <>
+          <p>Count: {count}</p>
+          <button onClick={increment}>
+            <img 
+              src={images[0]} 
+              alt="Add Counter" 
+              height="50"
+            />
+          </button>
+          <button onClick={decrement}>
+            <img 
+              src={images[1]} 
+              alt="Minus Counter" 
+              height="50"
+            />
+          </button>
+          <button onClick={saveCount}>
+            <img 
+              src={images[2]} 
+              alt="Save Counter" 
+              height="50"
+            />
+          </button>
+          <button onClick={clearStorage}>
+            <img 
+              src={images[3]} 
+              alt="Clear Storage" 
+              height="50"
+            />
+          </button>
+          <ul>
+            {savedCounts.map((savedCount, index) => (
+              <li key={index}>Saved Count: {savedCount.count}; When: {savedCount.time}</li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>Loading images...</p>
+      )}
     </div>
   );
 }
 
+/* ADDITIONAL FUNCTIONS FOR NEEDED FOR DIFFERENT PAGES */
 function getTime(){
   const date = new Date();
   const showTime = date.getHours() + ':' 
@@ -108,7 +167,65 @@ function getTime(){
                       + date.getSeconds();
   return showTime;
 }
+const Modal = ({ show, onClose, saveToDo }) => {
+  if (!show) {
+    return null;
+  }
 
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>&times;</span>
+        <h2 className="modal-title">Create TODO activity</h2>
+        <ToDoForm saveToDo={saveToDo} onClose={onClose} />
+      </div>
+    </div>
+  );
+};
+function ToDoForm({ saveToDo, onClose }) {
+  const [formData, setFormData] = useState({ todo: "", message: "" });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    saveToDo(formData.todo, formData.message);
+    onClose(); // Close the modal after saving
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="todo-form">
+      <div className="form-group">
+        <label htmlFor="todo">To-Do:</label>
+        <input 
+          type="text" 
+          id="todo" 
+          name="todo" 
+          value={formData.todo} 
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="message">Instructions:</label>
+        <textarea 
+          id="message" 
+          name="message" 
+          value={formData.message} 
+          onChange={handleChange} 
+          maxLength="200" 
+        />
+      </div>
+
+      <button type="submit">Save TODO</button>
+    </form>
+  );
+}
+
+/* NAV BAR + APP */
 function CreateNav(){
   return (
     <div>
@@ -120,7 +237,6 @@ function CreateNav(){
     </div>
   );
 }
-
 export function App() {
   return <Home />
 }
