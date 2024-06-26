@@ -2,6 +2,7 @@ import './App.css';
 import { Link, BrowserRouter as Router, Route, Switch } from "react-router-dom"
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 function Home(){
   return (
@@ -181,10 +182,68 @@ export function ToDo() {
 }
 
 export function Weather(){
+  const [location, setLocation] = useState({ latitude: null, longitude: null });
+  const [city, setCity] = useState('');
+  const [weather, setWeather] = useState(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ latitude, longitude });
+        getCityName(latitude, longitude);
+        getWeatherData(latitude, longitude);
+      }, (error) => {
+        console.error(error);
+      });
+    } else {
+      alert('Geolocation is not supported by this browser.');
+    }
+  }, []);
+
+  const getCityName = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=6a00a1025fa5484d91c7a9e8aabf7957`);
+      const city = response.data.results[0].components.city || response.data.results[0].components.town;
+      setCity(city);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getWeatherData = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(`https://api.weatherbit.io/v2.0/current?lat=${latitude}&lon=${longitude}&key=444f8906cf544b07a487276cf5cd80bc&include=minutely`);
+      setWeather(response.data.data[0]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div>
       <CreateNav />
       <h1>Weather</h1>
+      {location.latitude && location.longitude ? (
+        <div>
+          <p>Latitude: {location.latitude}</p>
+          <p>Longitude: {location.longitude}</p>
+          <p>City: {city}</p>
+        </div>
+      ) : (
+        <p>Loading location...</p>
+      )}
+
+      {location.latitude && location.longitude && weather ? (
+        <div>
+          <p>Temperature: {weather.temp}°C</p>
+          <p>Weather: {weather.weather.description}</p>
+          <p>Wind Speed: {weather.wind_spd} m/s</p>
+          <p>Humidity: {weather.rh}%</p>
+        </div>
+      ) : (
+        <p>Loading weather data...</p>
+      )}
     </div>
   );
 }
@@ -277,7 +336,6 @@ const TodoTemplate = ({ todoItem, toggleCompleted, deleteToDo }) => {
     </div>
   );
 };
-
 
 /* NAV BAR + APP */
 function CreateNav(){
